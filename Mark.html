@@ -1,0 +1,355 @@
+<div style="font-family: 'Fira Code', 'Consolas', monospace; max-width: 1200px; margin: 0 auto; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 2rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);">
+    
+    <!-- Header Section -->
+    <div style="text-align: center; margin-bottom: 2rem; border-bottom: 2px solid #4dd0e1; padding-bottom: 1rem;">
+        <h1 style="color: #4dd0e1; font-size: 2.5rem; font-weight: 800; margin: 0; text-shadow: 0 0 10px rgba(77, 208, 225, 0.7);">Python Built-in Functions</h1>
+        <p style="color: #a5d6ff; font-size: 1.1rem; margin-top: 0.5rem;">
+            Predefined functions available without imports | 
+            <a href="https://docs.python.org/3/library/functions.html" style="color: #ff9e64; text-decoration: none;">Official Documentation</a>
+        </p>
+    </div>
+    
+    <!-- Functions Table -->
+    <div style="overflow-x: auto; border-radius: 10px; background: rgba(26, 26, 46, 0.7); backdrop-filter: blur(5px);">
+        <table style="width: 100%; border-collapse: collapse;">
+            <!-- Table Header -->
+            <thead>
+                <tr style="background: linear-gradient(90deg, #4dd0e1 0%, #26c6da 100%);">
+                    <th style="padding: 12px 15px; text-align: left; color: #0a192f; font-weight: 700; border-radius: 10px 0 0 0;">Category</th>
+                    <th style="padding: 12px 15px; text-align: left; color: #0a192f; font-weight: 700;">Function</th>
+                    <th style="padding: 12px 15px; text-align: left; color: #0a192f; font-weight: 700;">Description</th>
+                    <th style="padding: 12px 15px; text-align: left; color: #0a192f; font-weight: 700;">Example</th>
+                    <th style="padding: 12px 15px; text-align: left; color: #0a192f; font-weight: 700; border-radius: 0 10px 0 0;">Result</th>
+                </tr>
+            </thead>
+            
+            <!-- Table Body -->
+            <tbody>
+                <!-- A Section -->
+                <tr style="background: rgba(26, 26, 46, 0.5);">
+                    <td colspan="5" style="padding: 8px 15px; color: #4dd0e1; font-weight: 700; font-size: 1.1rem; letter-spacing: 1px;">A</td>
+                </tr>
+                
+                <!-- abs() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">Math</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">abs(x)</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Returns the absolute value of a number</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">abs(-5)</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">5</code>
+                    </td>
+                </tr>
+                
+                <!-- aiter() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">Async</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">aiter(async_iterable)</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Returns an asynchronous iterator</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">aiter(async_iter)</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">&lt;async_iterator&gt;</code>
+                    </td>
+                </tr>
+                
+                <!-- all() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">Iteration</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">all(iterable)</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Returns <code style="color: #64ff96;">True</code> if all elements are truthy</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">all([1, 1, 1])</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">True</code>
+                    </td>
+                </tr>
+                
+                <!-- anext() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">Async</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">anext(async_iterator)</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Returns the next item from an async iterator</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">await anext(async_i)</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">next_value</code>
+                    </td>
+                </tr>
+                
+                <!-- any() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">Iteration</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">any(iterable)</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Returns <code style="color: #64ff96;">True</code> if any element is truthy</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">any([0, 1, 0])</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">True</code>
+                    </td>
+                </tr>
+                
+                <!-- ascii() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">String</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">ascii(obj)</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Returns a string containing a printable representation</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">ascii('ñ')</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">"'\\xf1'"</code>
+                    </td>
+                </tr>
+                
+                <!-- B Section -->
+                <tr style="background: rgba(26, 26, 46, 0.5);">
+                    <td colspan="5" style="padding: 8px 15px; color: #4dd0e1; font-weight: 700; font-size: 1.1rem; letter-spacing: 1px;">B</td>
+                </tr>
+                
+                <!-- bin() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">Conversion</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">bin(x)</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Converts an integer to a binary string</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">bin(3)</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">'0b11'</code>
+                    </td>
+                </tr>
+                
+                <!-- bool() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">Conversion</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">bool(x)</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Converts a value to a boolean</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">bool(1)</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">True</code>
+                    </td>
+                </tr>
+                
+                <!-- breakpoint() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">Debugging</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">breakpoint()</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Drops into the debugger at the call site</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">breakpoint()</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">(Enters debugger)</code>
+                    </td>
+                </tr>
+                
+                <!-- bytearray() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">Bytes</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">bytearray()</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Returns a mutable array of bytes</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">bytearray([65, 66])</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">bytearray(b'AB')</code>
+                    </td>
+                </tr>
+                
+                <!-- bytes() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">Bytes</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">bytes()</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Returns an immutable bytes object</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">bytes([65, 66])</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">b'AB'</code>
+                    </td>
+                </tr>
+                
+                <!-- C Section -->
+                <tr style="background: rgba(26, 26, 46, 0.5);">
+                    <td colspan="5" style="padding: 8px 15px; color: #4dd0e1; font-weight: 700; font-size: 1.1rem; letter-spacing: 1px;">C</td>
+                </tr>
+                
+                <!-- callable() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">Introspection</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">callable(obj)</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Checks if an object is callable</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">callable(print)</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">True</code>
+                    </td>
+                </tr>
+                
+                <!-- chr() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">Conversion</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">chr(i)</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Returns a Unicode string for an integer (0-0x10FFFF)</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">chr(65)</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">'A'</code>
+                    </td>
+                </tr>
+                
+                <!-- classmethod() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">OOP</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">classmethod()</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Converts a function to a class method</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">@classmethod</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">(Decorator)</code>
+                    </td>
+                </tr>
+                
+                <!-- compile() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">Execution</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">compile()</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Compiles source into a code object</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">compile('2+2', ...)</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">&lt;code object&gt;</code>
+                    </td>
+                </tr>
+                
+                <!-- complex() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">Math</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">complex()</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Creates a complex number</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">complex(2, 3)</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">(2+3j)</code>
+                    </td>
+                </tr>
+                
+                <!-- D Section -->
+                <tr style="background: rgba(26, 26, 46, 0.5);">
+                    <td colspan="5" style="padding: 8px 15px; color: #4dd0e1; font-weight: 700; font-size: 1.1rem; letter-spacing: 1px;">D</td>
+                </tr>
+                
+                <!-- delattr() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">OOP</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">delattr(obj, attr)</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Deletes an attribute from an object</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">delattr(obj, 'x')</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">(Attribute removed)</code>
+                    </td>
+                </tr>
+                
+                <!-- dict() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">Data Structure</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">dict()</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Creates a dictionary</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">dict(a=1, b=2)</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">{'a': 1, 'b': 2}</code>
+                    </td>
+                </tr>
+                
+                <!-- dir() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">Introspection</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">dir()</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Returns a list of names in current scope</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">dir()</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">['__builtins__', ...]</code>
+                    </td>
+                </tr>
+                
+                <!-- divmod() -->
+                <tr style="border-bottom: 1px solid rgba(77, 208, 225, 0.2);">
+                    <td style="padding: 12px 15px; color: #a5d6ff; font-weight: 500;">Math</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(77, 208, 225, 0.15); color: #4dd0e1; padding: 3px 6px; border-radius: 4px; font-weight: 600;">divmod(a, b)</code>
+                    </td>
+                    <td style="padding: 12px 15px; color: #e6f7ff;">Returns quotient and remainder as a tuple</td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(255, 158, 100, 0.15); color: #ff9e64; padding: 3px 6px; border-radius: 4px;">divmod(5, 2)</code>
+                    </td>
+                    <td style="padding: 12px 15px;">
+                        <code style="background: rgba(100, 255, 150, 0.15); color: #64ff96; padding: 3px 6px; border-radius: 4px;">(2, 1)</code>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Footer -->
+    <div style="margin-top: 1.5rem; text-align: center; color: #a5d6ff; font-size: 0.9rem;">
+        <p>Built-in functions are always available in Python without imports. Hover over functions for more details.</p>
+    </div>
+</div>
