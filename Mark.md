@@ -1,4 +1,4 @@
-<span style="color: #4dd0e1; font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 28px; font-weight: bold; text-shadow: 0 0 5px rgba(77, 208, 225, 0.5);">Built-in Functions</span>
+<span style="color: #4dd0e1; font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 40px; font-weight: bold; text-shadow: 0 0 5px rgba(77, 208, 225, 0.5);">Built-in Functions</span>
 
 Python [`Built-in functions`](https://docs.python.org/3/library/functions.html) are predefined functions in the language and you don't need to import any library to use them. These functions are available directly when you run the Python interpreter.
 -
@@ -8,12 +8,12 @@ Python [`Built-in functions`](https://docs.python.org/3/library/functions.html) 
 
 | <span style="color:#4dd0e1; font-weight:bold">Category</span> | <span style="color:#4dd0e1; font-weight:bold">Function</span> | <span style="color:#4dd0e1; font-weight:bold">Description</span> | <span style="color:#4dd0e1; font-weight:bold">Example</span> | <span style="color:#4dd0e1; font-weight:bold">Result</span> |
 |----------|-----------|-------------|---------|--------|
-| **A**    | <span style="color:#2962FF">`abs(x)`</span>          | Returns the absolute value of a number                                      | `abs(-5)`             | `5`                  |
-|          | <span style="color:#2962FF">`aiter(async_i)`</span>  | Returns an asynchronous iterator                                            | `aiter(async_iter)`   | `<async_iterator>`   |
-|          | <span style="color:#2962FF">`all(iterable)`</span>   | Returns `True` if all elements are truthy                                   | `all([1, 1, 1])`      | `True`               |
-|          | <span style="color:#2962FF">`anext(async_i)`</span>  | Returns the next item from an async iterator                                | `await anext(async_i)`| `next_value`         |
-|          | <span style="color:#2962FF">`any(iterable)`</span>   | Returns `True` if any element is truthy                                     | `any([0, 1, 0])`      | `True`               |
-|          | <span style="color:#2962FF">`ascii(obj)`</span>      | Returns a string containing a printable representation                      | `ascii('ñ')`          | `"'\\xf1'"`          |
+| **A**    | `abs(x)`          | Returns the absolute value of a number                                      | `abs(-5)`             | `5`                  |
+|          | `aiter(async_i)`  | Returns an asynchronous iterator                                            | `aiter(async_iter)`   | `<async_iterator>`   |
+|          | `all(iterable)`   | Returns `True` if all elements are truthy                                   | `all([1, 1, 1])`      | `True`               |
+|          | `anext(async_i)`  | Returns the next item from an async iterator                                | `await anext(async_i)`| `next_value`         |
+|          | `any(iterable)`   | Returns `True` if any element is truthy                                     | `any([0, 1, 0])`      | `True`               |
+|          | `ascii(obj)`      | Returns a string containing a printable representation                      | `ascii('ñ')`          | `"'\\xf1'"`          |
 | **B**    | `bin(x)`          | Converts an integer to a binary string                                      | `bin(3)`              | `'0b11'`             |
 |          | `bool(x)`         | Converts a value to a boolean                                               | `bool(1)`             | `True`               |
 |          | `breakpoint()`    | Drops into the debugger at the call site                                    | `breakpoint()`        | (Enters debugger)    |
