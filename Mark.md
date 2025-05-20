@@ -1,4 +1,4 @@
-<span style="color: #4dd0e1; font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 40px; font-weight: bold; text-shadow: 0 0 5px rgba(77, 208, 225, 0.5);">Built-in Functions</span>
+# Built-in functions
 
 Python [`Built-in functions`](https://docs.python.org/3/library/functions.html) are predefined functions in the language and you don't need to import any library to use them. These functions are available directly when you run the Python interpreter.
 -
