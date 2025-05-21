@@ -3,7 +3,7 @@
 ## 📂 Core Python(By Murtadha Adnan)
 | Arabic Documentation | English Documentation |
 |----------------------|-----------------------|
-| [الدوال المضمنة](Built-in_functions_(AR).md) | [Built-in Functions](Built-in_functions_(EN).md) |
+| [الدوال المضمنة]([Built-in_functions_(AR).md](https://github.com/MurtadhaAdnan/Learning-Journey/blob/main/Coding/Python/Basics%20Python/Built-in%20functions%20(AR).md)) | [Built-in Functions]([in_functions_(EN).md](https://github.com/MurtadhaAdnan/Learning-Journey/blob/main/Coding/Python/Basics%20Python/Built-in%20functions%20(EN).md)) |
 | [طرق القوائم والقواميس](Methods_of_(Lists,_Dicts,_Sets_(AR).md)) | [List/Dict Methods](Methods_of_(Lists,_Dicts,_Sets_(EN).md)) |
 | [النصوص والملفات](Methods_of_(String,_File)_(AR).md) | [String/File Methods](Methods_of_(String,_File)_(EN).md) |
 | [كلمات بايثون](Python_Keywords_(AR).md) | [Python Keywords](Python_Keywords_(EN).md) |
