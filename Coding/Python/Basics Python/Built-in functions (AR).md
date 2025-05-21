@@ -1,6 +1,7 @@
 # Built-in functions
 
 بايثون [`Built-in functions`](https://docs.python.org/3/library/functions.html) هي دوال محددة مسبقًا في اللغة ولا تحتاج إلى استيراد أي مكتبة لاستخدامها. تتوفر هذه الدوال مباشرةً عند تشغيل مترجم بايثون.
+-
 
 | <span style="color:#4dd0e1; font-weight:bold">Category</span> | <span style="color:#4dd0e1; font-weight:bold">Function</span> | <span style="color:#4dd0e1; font-weight:bold">الوصف</span> | <span style="color:#4dd0e1; font-weight:bold">Example</span> | <span style="color:#4dd0e1; font-weight:bold">Result</span> |
 |----------|-----------|-------------|---------|--------|
