@@ -33,6 +33,8 @@
 | `tf.math.add(x, y)` | جمع تنسورات | `tf.math.add([1,2], [3,4])` | `[4 6]` |
 | `tf.math.reduce_mean(input)` | حساب المتوسط | `tf.math.reduce_mean([1.,2.,3.])` | `2.0` |
 | `keras.Sequential(layers)` | نموذج تسلسلي | `Sequential([Dense(2)])` | نموذج به طبقة واحدة |
+
+
 <br><br><br>
 
 ## `المستوى المتوسط`
