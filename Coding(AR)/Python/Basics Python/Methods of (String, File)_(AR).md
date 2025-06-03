@@ -48,7 +48,10 @@
 | 43 | `translate()`        | ترجمة السلسلة                                                       | `"abc".translate({97:98})`      | `"bbc"`                    |
 | 44 | `upper()`            | تحويل السلسلة إلى أحرف كبيرة                                         | `"hello".upper()`               | `"HELLO"`                  |
 | 45 | `zfill(width)`       | إضافة أصفار من الجهة اليسرى                                          | `"42".zfill(5)`                 | `"00042"`                  |
+
+
 <br><br><br>
+
 ## `File Methods`
 
 | #  | Method           | الوصف                                                                 | Example                          | Result                     |
