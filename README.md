@@ -1,83 +1,163 @@
-<div dir="rtl">
+## Chapter 2
 
+# Multi-armed Bandits
 
+The most important feature distinguishing reinforcement learning from other types of
+learning is that it uses training information that evaluates the actions taken rather
+than instructs by giving correct actions. This is what creates the need for active
+exploration, for an explicit search for good behavior. Purely evaluative feedback indicates
+how good the action taken was, but not whether it was the best or the worst action
+possible. Purely instructive feedback, on the other hand, indicates the correct action to
+take, independently of the action actually taken. This kind of feedback is the basis of
+supervised learning, which includes large parts of pattern classification, artificial neural
+networks, and system identification. In their pure forms, these two kinds of feedback
+are quite distinct: evaluative feedback depends entirely on the action taken, whereas
+instructive feedback is independent of the action taken.
 
-_Generated from [ChatDOC](https://chatdoc.com)_
+In this chapter we study the evaluative aspect of reinforcement learning in a simplified
+setting, one that does not involve learning to act in more than one situation. This
+nonassociative setting is the one in which most prior work involving evaluative feedback
+has been done, and it avoids much of the complexity of the full reinforcement learning
+problem. Studying this case enables us to see most clearly how evaluative feedback differs
+from, and yet can be combined with, instructive feedback.
 
-### Question 1
+The particular nonassociative, evaluative feedback problem that we explore is a simple
+version of the k-armed bandit problem. We use this problem to introduce a number
+of basic learning methods which we extend in later chapters to apply to the full reinforcement learning problem. At the end of this chapter, we take a step closer to the full
+reinforcement learning problem by discussing what happens when the bandit problem
+becomes associative, that is, when actions are taken in more than one situation.
 
-**Q:** **What is the main distinction between evaluative and instructive feedback in reinforcement learning?**
+---
 
-**A:** **[gpt-4o-mini]** التمييز الرئيسي بين التغذية الراجعة التقييمية (evaluative) والتغذية الراجعة الإرشادية (instructive) في التعلم التعزيزي هو في كيفية تقديم المعلومات المتعلقة بالأفعال التي يتم اتخاذها. التغذية الراجعة التقييمية تشير إلى مدى جودة العمل الذي تم اتخاذه، ولكنها لا تحدد ما إذا كان هذا العمل هو الأفضل أو الأسوأ. بينما التغذية الراجعة الإرشادية تشير إلى العمل الصحيح الذي يجب اتخاذه، دون النظر إلى العمل الذي تم فعلاً اتخاذه.
+## 2.1 A k-armed Bandit Problem
 
-باختصار، التغذية الراجعة التقييمية تعتمد كلياً على الأفعال المنفذة، في حين أن التغذية الراجعة الإرشادية مستقلة عن الأفعال المنفذة . 
+Consider the following learning problem. You are faced repeatedly with a choice among
+$k$ different options, or actions. After each choice you receive a numerical reward chosen
+from a stationary probability distribution that depends on the action you selected.
 
-_Related sources: 1, 20, 21._
+Your objective is to maximize the expected total reward over some time period, for example,
+over 1000 action selections, or time steps.
 
-### Question 2
+This is the original form of the k-armed bandit problem, so named by analogy to a slot
+machine, or “one-armed bandit,” except that it has $k$ levers instead of one. Each action
+selection is like a play of one of the slot machine’s levers, and the rewards are the payoffs
+for hitting the jackpot. Through repeated action selections you are to maximize your
+winnings by concentrating your actions on the best levers. Another analogy is that of
+a doctor choosing between experimental treatments for a series of seriously ill patients.
+Each action is the selection of a treatment, and each reward is the survival or well-being
+of the patient. Today the term “bandit problem” is sometimes used for a generalization
+of the problem described above, but in this book we use it to refer just to this simple
+case.
 
-**Q:** **ترجم النص إلى العربية مع إبقاء الرموز والمعادلات كما هي، وأعد كتابته بنفس ترتيب Markdown بدون أي شروحات إضافية.**
+In our k-armed bandit problem, each of the $k$ actions has an expected or mean reward
+given that that action is selected; let us call this the value of that action. We denote the
+action selected on time step $t$ as $A_t$, and the corresponding reward as $R_t$.  
+The value then of an arbitrary action $a$, denoted $q^\ast(a)$, is the expected reward given that $a$ is selected:
 
-**A:** **[gpt-4o-mini]** عنوان المستند: **"استكشاف مشكلة الذراع المتعدد: تقنيات لتحقيق التوازن بين الاستكشاف والاستغلال في التعلم المعزز"**   
-ملخص المستند: يركز المستند على التعلم المعزز، مع تسليط الضوء على الفرق بين التعليقات التقييمية والتعليمية. يستكشف جانب التعليقات التقييمية من خلال عدسة مشكلة الذراع المتعدد \(k\)-armed bandit، حيث الهدف هو زيادة المكافآت المتوقعة عن طريق الاختيار من بين خيارات متعددة بناءً على المكافآت العددية. يصف المستند طبيعة هذه المشكلة، التي تعكس سيناريو حيث يختار لاعب أذرع ماكينة القمار للحصول على أعلى المكافآت. عنصر حاسم تمت مناقشته هو تجارة الاستكشاف والاستغلال: الحاجة إلى تحقيق التوازن بين اتخاذ اختيارات مستنيرة (الاستغلال) واختبار خيارات أقل شهرة لاكتشاف مكافآت محتملة أفضل (الاستكشاف). هذا التوازن حيوي في التعلم المعزز، حيث يمكن أن يؤدي الاستكشاف إلى مكاسب أفضل على المدى الطويل من مجرد الالتزام بالإجراءات التي يتم تصورها على أنها الأفضل حالياً. يقدم الفصل مجموعة من الطرق البسيطة لمواجهة هذا dilemma في سياق مشكلة \(k\)-armed bandit، موضحاً الأساس لمناقشات أكثر تعقيداً في الأقسام اللاحقة. بشكل عام، يعزز المستند التحديات الأساسية في التعلم المعزز من خلال الإطار المبسط لمشكلة الذراع المتعدد، مما يمهد الطريق لاستكشاف أعمق لطرق قيمة العمل وتعقيدات أخرى داخل التعلم المعزز.  
-مقتطف المستند:  
-`[8a] Initialize, for \(a=1\) to \(k\):  
- \(Q(a)\) 0  
- \(N(a)\) 0  
-Loop forever:  
-A \(\left\{\begin{array}{l l}{{\mathrm{argmax}_{a}\,Q(a)}}&{{\mathrm{with}}}\\ {{\mathrm{a~random~action}}}&{{\mathrm{with}}}\end{array}\right.\)  pprroobbaabbiilliittyy \(\varepsilon\)\(1-\varepsilon\) (breaking ties randomly  
-) \(R\) \(b a n d i t(A)\)  
- \(N(A)\) \(N(A)+1\)  
- \(Q(A)\) \(\begin{array}{r}{Q(A)+\frac{1}{N(A)}\big[R-Q(A)\big]}\end{array}\) [8a]  
-[13] 2.8 Gradient Bandit Algorithms [13]  
-[16a] Thus it remains only to show that \(\begin{array}{r}{\frac{\partial\pi_{t}(x)}{\partial H_{t}(a)}=\pi_{t}(x)\big(\mathbb{1}_{a=x}-\pi_{t}(a)\big)}\end{array}\), as we assum ed.Recall the standard quotient rule for derivatives: [16a]  
-[16b] \[{\frac{\partial}{\partial x}}\left[{\frac{f(x)}{g(x)}}\right]={\frac{{\frac{\partial f(x)}{\partial x}}g(x)-f(x){\frac{\partial g(x)}{\partial x}}}{g(x)^{2}}}.\] [16b]  
-[16c] Using this, we can write [16c]  
-[16d] \[\begin{array}{r l r}{\lefteqn{\frac{\partial\pi_{\mathbf{c}}(\mathbf{z})}{\partial H_{t}(\mathbf{a})}=\frac{\partial}{\partial H_{t}(\mathbf{a})}\pi_{t}(\mathbf{z})}}\\ &{}&{=\frac{\partial}{\partial H_{t}(\mathbf{a})}\left[\sum_{s=1}^{H_{t}(\mathbf{a})}\right]}\\ &{}&{=\frac{\frac{\partial\pi_{\mathbf{c}}(\mathbf{z})}{\partial\mathbf{z}(\mathbf{a})}\sum_{s=1}^{H_{t}(\mathbf{a})}e^{-\mathbf{z}(H_{t}(\mathbf{a}))}}{\left(\sum_{s=1}^{H_{t}(\mathbf{a})}e^{-\mathbf{z}(H_{t}(\mathbf{a}))}\right)^{2}}\quad\mathrm{(by~the~quotient~rid)}}\\ &{}&{=\frac{1}{\mathbf{1}_{\mathbf{\tilde{m}},\mathbf{z}}e^{\mathbf{\tilde{H}}(\mathbf{z})}\sum_{s=1}^{H_{t}(\mathbf{a})}e^{-\mathbf{z}(H_{t}(\mathbf{a}))}e^{-\mathbf{z}(H_{t}(\mathbf{a}))}}{\left(\sum_{s=1}^{H_{t}(\mathbf{a})}e^{\mathbf{\tilde{z}}(\mathbf{z})}\right)^{2}}\quad\quad\mathrm{(becaus~\frac{\partial~\mathbf{z}_{s}}{\partial\mathbf{z}}=e^{\mathbf{\tilde{z}}})}}\\ &{}&{=\frac{1}{\sum_{s=1}^{H_{t}(\mathbf{a})}e^{\mathbf{\tilde{z}}(H_{t}(\mathbf{a}))}}{\left(\sum_{s=1}^{H_{t}(\mathbf{a})}e^{\mathbf{\tilde{z}}(\mathbf{z})}\right)^{2}}\quad\quad\quad}\\ &{}&{=\frac{1}{\mathbf{1}_{\mathbf{\tilde{m}},\mathbf{z}}e^{\mathbf{\tilde{z}}(\mathbf{z})}}{\left(\mathbf{\tilde{z}}\right)}-\frac{e^{\mathbf{\tilde{z}}(H_{t}(\mathbf{a}))}}{\left(\sum_{s=1}^{H_{t}(\mathbf{a})}e^{\mathbf{\tilde{z}}(\mathbf{z})}\right)^{2}}}\\ &{}&{=\mathbf{1}_{\mathbf{\tilde{m}},\mathbf{z}}(\mathbf{z}) \] [16d]  
-[15a] \[\begin{array}{r l}&{=\mathbb{E}\big[\big(R_{t}-\bar{R}_{t}\big)\pi_{t}(A_{t})\big(\mathbb{1}_{a=A_{t}}-\pi_{t}(a)\big)/\pi_{t}(A_{t})\big]}\\ &{=\mathbb{E}\big[\big(R_{t}-\bar{R}_{t}\big)\big(\mathbb{1}_{a=A_{t}}-\pi_{t}(a)\big)\big]\,.}\end{array}\] [15a]  
-[15b] Recall that our plan has been to write the performance gradient as an expectation of something that we can sample on each step, as we havej ust done, and then update on each step proportional to the sample. Substituting a sample of the expectation above for the performance gradient in (2.13) yields: [15b]  
-[15c] \[H_{t+1}(a)=H_{t}(a)+\alpha\big(R_{t}-\bar{R}_{t}\big)\big(\mathbb{1}_{a=A_{t}}-\pi_{t}(a)\big),\qquad{\mathrm{for~all~}}a,\] [15c]  
-[15d] which you may recognize as being equivalent to our original algorithm (2.12). [15d]  
-[1a] الفصل 2: الذراع المتعدد [1a]  
-[8b] 2.5 تتبّع مشكلة غير ثابتة [8b]  
-[8c] \[{\begin{array}{r c l l}{Q_{n+1}}&{=}&{Q_{n}+\alpha\Big[R_{n}-Q_{n}\Big]}\\ &{=}&{\alpha R_{n}+(1-\alpha)Q_{n}}\\ &{=}&{\alpha R_{n}+(1-\alpha)\left[\alpha R_{n-1}+(1-\alpha)Q_{n-1}\right]}\\ &{=}&{\alpha R_{n}+(1-\alpha)\alpha R_{n-1}+(1-\alpha)^{2}Q_{n-1}}\\ &{=}&{\alpha R_{n}+(1-\alpha)\alpha R_{n-1}+(1-\alpha)^{2}\alpha R_{n-2}+}\\ &&{\qquad\qquad\quad\cdots+(1-\alpha)^{n-1}\alpha R_{1}+(1-\alpha)^{n}Q_{1}}\\ &{=}&{(1-\alpha)^{n}Q_{1}+\displaystyle\sum_{i=1}^{n}\alpha(1-\alpha)^{n-i}R_{i}.}\end{array}}\] [8c]  
-[9] نسمي هذا متوسطًا مرجحًا لأن مجموع الأوزان هو \(\begin{array}{r}{(1-\alpha)^{n}+\sum_{i=1}^{n}\alpha(1-\alpha)^{n-i}} \end{array}\)\(\alpha)^{n-i}=1\)، كما يمكنك التحقق بنفسك. لاحظ أن الوزن، \(\alpha(1-\alpha)^{n-i}\)، المخصص لمكافأة \(R_{i}\) يعتمد على مدى قرب المكافآت، \(n-i\). الكمية \(1-\alpha\) أقل من 1، وبالتالي، الوزن المخصص لـ \(R_{i}\) يتناقص كلما زاد عدد المكافآت. في الواقع، الوزن يتناقص بشكل أسّي وفقًا للوظيفة الأسّيّة \(1-\alpha\). (إذا كان \(1-\alpha=0\)، فإن كل الوزن يذهب إلى أحدث مكافأة، \(R_{n}\)، بسبب الاتفاق أن \(0^{0}=1.\) وفقًا لذلك، يُطلق عليه أحيانًا متوسط ​​الحد الأقصى ذو الصلة. [9]  
-[10a] 2.6 قيم ابتدائية متفائلة [10a]  
-[11a] \[\bar{o}_{n}\doteq\bar{o}_{n-1}+\alpha(1-\bar{o}_{n-1}),\quad\mathrm{for}\ n\geq0,\quad\mathrm{with~}\bar{o}_{0}\doteq0.\tag{2.9}\] [11a]  
-[11b] قم بتنفيذ تحليل مشابه لذاك في (2.6) لإظهار أن \(Q_{n}\) هو متوسط مرجح للحد الأقصى بدون انحياز أولي. ⇤ [11b]  
-[6a] 2.4 التنفيذ التدريجي [6a]  
-[7a] \[\begin{array}{r l r}{Q_{n+1}}&{=}&{\frac{1}{n}\displaystyle\sum_{i=1}^{n}R_{i}}\\ &{=}&{\frac{1}{n}\left(R_{n}+\displaystyle\sum_{i=1}^{n-1}R_{i}\right)}\\ &{=}&{\frac{1}{n}\left(R_{n}+(n-1)\frac{1}{n-1}\displaystyle\sum_{i=1}^{n-1}R_{i}\right)}\\ &{=}&{\frac{1}{n}\big(R_{n}+(n-1)Q_{n}\big)}\\ &{=}&{\frac{1}{n}\big(R_{n}+n Q_{n}-Q_{n}\big)}\\ &{=}&{Q_{n}+\frac{1}{n}\big[R_{n}-Q_{n}\big],\qquad\qquad\qquad\qquad\quad(2.3)}\end{array}\] [7a]  
-[7b] وهو صحيح حتى بالنسبة لـ \(n=1,\) حيث نحصل على \(Q_{2}=R_{1}\) لأي \(Q_{1}\). يتطلب هذا التنفيذ ذاكرة فقط لـ \(Q_{n}\) و\(_n\)، فقط تحتاج إلى حساب صغير (2.3) لكل مكافأة جديدة. [7b]  
-[7c] تعتبر قاعدة التحديث هذه (2.3) من الأشكال الشائعة التي تظهر بكثرة في هذا الكتاب. الشكل العام هو [7c]  
-[7d] \[N e w E s t i م ا ت\gets O l d E s t i م ا ت\ +\ S t e p S i z e\ \Big[T a r g e t-O l d E s t i م ا ت\Big].\tag{2.4}\] [7d]  
-[7e] التعبير \([T a r g e t\!-\!O l d E s t i م ا ت]\) هو خطأ في التقدير. يتم تقليله من خلال اتخاذ خطوة نحو "الهدف". يُفترض أن الهدف يُشير إلى اتجاه مرغوب للتحرك نحو، على الرغم من أنه قد يكون ضوضاء. في الحالة أعلاه، على سبيل المثال، الهدف هو المكافأة \(_{n}\). [7e]  
-[7f] لاحظ أن معلمة حجم الخطوة \((S t e p S i z e)\) المستخدمة في طريقة التنفيذ التدريجي (2.3) تختلف من خطوة زمنية إلى أخرى. عند معالجة المكافأة \(n1\) للإجراء \(^{a}\)، تستخدم الطريقة معلمة حجم الخطوة \(\textstyle{\frac{1}{n}}\). في هذا الكتاب، نشير إلى معلمة حجم الخطوة بواسطة \(\alpha\) أو، بشكل أكثر عمومية، بواسطة \(\alpha_{t}(a)\). [7f]  
-[8d] نموذج كود خوارزمية كاملة للذراع المتعدد باستخدام متوسطات عينة محسوبة تدريجياً واختيار عمل \(\varepsilon\)-الجشع موضحة في المربع أدناه. ويُفترض أن الوظيفة \(b a n d i t(a)\) تأخذ إجراءً وتعود بمكافأة مقابلة. [8d]  
-[8e] خوارزمية بسيطة للذراع المتعدد [8e]  
-[20a] 2.1 تمت دراسة مشاكل الذراع المتعدد في الإحصاء والهندسة وعلم النفس. في الإحصاء، تندرج مشاكل الذراع المتعدد تحت عنوان "تصميم تجارب تسلسلية"، الذي قدمه تومسون (1933، 1934) وروبينز (1952) ، ودراسته من قبل بيلمان (1956). يقدم بيري وفريستدت (1985) معالجة شاملة لمشاكل الذراع المتعدد من منظور الإحصاءات. عالج ناريندرا وثاتاتشار (1989) مشاكل الذراع المتعدد من منظور الهندسة، موفرين مناقشة جيدة لتقاليد النظرية المختلفة التي ركزت عليها. في علم النفس، لعبت مشاكل الذراع المتعدد أدواراً في نظرية التعلم الإحصائي (على سبيل المثال، بوش وموستيلا، 1955؛ إستي، 1950). [20a]  
-[20b] يُستخدم مصطلح الجشع في الأدبيات البحثية الجشعة (على سبيل المثال، بيرل، 1984). يُعرف الصراع بين الاستكشاف والاستغلال في الهندسة التحكمية بأنه الصراع بين التعريف (أو التقدير) والتحكم (على سبيل المثال، ويتن، 1976ب). أطلق فيلدباوم (1965) عليه اسم مشكلة التحكم المزدوج، مشيراً إلى الحاجة إلى حل مشكلتين هما التعريف والتحكم في آنٍ واحد عند محاولة التحكم في نظام تحت عدم اليقين. في مناقشة جوانب خوارزميات الجينات، أبرز هولندا (1975) أهمية هذا الصراع، مشيراً إلى أنه الصراع بين الحاجة إلى الاستغلال والحاجة إلى معلومات جديدة. [20b]  
-[20c] 2.2 تم اقتراح طرق قيمة العمل لمشكلة الذراع المتعدد \(k\) لأول مرة من قبل ثاتاتشار وساستري (1985). وغالباً ما تُسمى هذه خوارزميات التقدير في أدبيات آلات التعلم. جاءت تسمية قيمة العمل من واطكينز (1989). ربما كان أول من استخدم طرق \(\varepsilon\)-الجشع هو واطكينز (1989، ص. 187)، ولكن يبدو من المحتمل أن بعض الاستخدامات السابقة قد حدثت. [20c]  
-[20d] 2.4–5 تقع هذه المادة تحت العنوان العام للخوارزميات العشوائية التكرارية، التي تم تناولها بشكل جيد من قبل بيرتسيكاس و تسيتسيكلس (1996). [20d]  
-[20e] تم استخدام التهيئة المتفائلة في التعلم المعزز بواسطة ساتون (1996). [20e]  
-[20f] تم القيام بأعمال مبكرة حول استخدام تقديرات الحدود العليا للثقة لاختيار الإجراءات من قبل لاي وروبينز (1985)، كايلبلينغ (1993ب)، وأغراوال (1995). تُدعى خوارزمية UCB المعروضة هنا بـ UCB1 في الأدبيات، وتم تطويرها لأول مرة بواسطة أوير، سيسا-بيانكي وفيشر (2002). [20f]  
-[20g] خوارزميات الذراع المتعدد التدرج هي حالة خاصة من خوارزميات التعلم المعزز المستندة إلى التدرج التي قدمها ويليامز (1992)، والتي توسعت لاحقاً إلى خوارزميات الممثل-الناقد والتدرج السياساتي التي نتناولها لاحقاً في هذا الكتاب. تم التأثير على تطويرنا هنا من قبل بالارامان رافيندران (التواصل الشخصي). يتم توفير مناقشة أخرى حول اختيار الحافة هناك ومن قبل جرينسميث وبارتليت وباكسير (2002، 2004) وديك (2015). تم إجراء دراسات منهجية مبكرة حول خوارزميات مثل هذه من قبل ساتون (1984). [20g]  
-[18a] من الطبيعي أن نسأل أي من هذه الطرق هو الأفضل. على الرغم من أن هذا سؤال صعب الإجابة عليه بشكل عام، إلا أنه يمكننا بالتأكيد تشغيلها جميعًا على منصة الاختبار مكونة من 10 أذرع التي استخدمناها طوال هذا الفصل ومقارنة أدائها. تتمثل المعضلة في أن جميعها تحتوي على معلمة؛ من أجل الحصول على مقارنة ذات مغزى، علينا أن ننظر إلى أدائها كدالة لقيم معلماتها. لقد أظهرت الرسوم البيانية حتى الآن مسار التعلم على مر الزمن لكل خوارزمية وإعداد معلمة، لإنتاج منحنى تعلم لتلك الخوارزمية وإعداد المعلمات. إذا قمنا برسم منحنيات تعلم لجميع الخوارزميات وجميع إعدادات المعلمات، فإن الرسم سيكون شديد التعقيد والزحام لتقديم مقارنات واضحة. بدلاً من ذلك، نلخص منحنى تعلم كامل بقيمته المتوسطة على مدى 1000 خطوة؛ هذه القيمة متناسبة مع المساحة تحت منحنى التعلم. توضح الشكل 2.6 هذه القياسات للخوارزميات المختلفة من هذا الفصل، كل منها كدالة لمعاملها الخاص الموضح على سلك محوري واحد. تُدعى هذه الرسوم البيانية دراسة معلمات. لاحظ أن قيم المعلمات تم تغييرها بعوامل اثنين وقدمت على مقياس لوغاريتمي. لاحظ أيضًا الأشكال المقلوبة-U المميزة لأداء كل خوارزمية؛ جميع الخوارزميات تعمل بشكل أفضل عند قيمة متوسطة للمعلمة، ليست كبيرة جدًا ولا صغيرة جدًا. عند تقييم طريقة، يجب أن نولي اهتمامًا ليس فقط لكيفية أداءها في أفضل إعدادات المعلمات لها، ولكن أيضًا إلى مدى حساسيتها لقيمة معلمتها. جميع هذه الخوارزميات حساسة نسبياً، تعمل بشكل جيد على مدى مجموعة من قيم المعلمات التي تتفاوت بحوالي ترتيب واحد من حيث الحجم. بشكل عام، يبدو أن UCB يؤدّي بشكل أفضل. [18a]  
-[15e] حيث يُطلق على \(B_{t}\)، المعروف بأساسياته، أي عدد صحيح لا يعتمد على \(\boldsymbol{x}\). يمكننا تضمين الأساس هنا دون تغيير المساواة لأن المشتق يجمع إلى الصفر عبر جميع الإجراءات، \(\begin{array}{r}{\sum_{x}{\frac{\partial\pi_{t}(\overline{{x}})}{\partial H_{t}(a)}}=0}\end{array}\) —حيث يتم تغيير \(H_{t}(a)\) ، قد تزداد احتمالات بعض الإجراءات ويقل البعض الآخر، ولكن يجب أن يكون مجموع التغيرات صفرًا لأن مجموع الاحتمالات هو دائمًا واحد. [15e]  
-[15f] بعد ذلك نضرب كل حد من الحدود في مجموع \(\pi_{t}(x)/\pi_{t}(x)\): [15f]  
-[15g] \[\frac{\partial\mathbb{E}[R_{t}]}{\partial H_{t}(a)}=\sum_{x}\pi_{t}(x)\big(q_{*}(x)-B_{t}\big)\frac{\partial\pi_{t}(x)}{\partial H_{t}(a)}/\pi_{t}(x).\] [15g]  
-[15h] المعادلة الآن في شكل توقع، تجمع عبر جميع القيم الممكنة \(\boldsymbol{x}\) للمتغير العشوائي \(A_{t}\)، ثم مضروبًا في احتمال اتخاذ تلك القيم. وبالتالي: [15h]  
-[15i] \[\begin{array}{r l}&{=\mathbb{E}\bigg[\big(q_{*}(A_{t})-B_{t}\big)\frac{\partial\pi_{t}(A_{t})}{\partial H_{t}(a)}/{\pi_{t}(A_{t})}\bigg]}\\ &{=\mathbb{E}\bigg[\big(R_{t}-\bar{R}_{t}\big)\frac{\partial\pi_{t}(A_{t})}{\partial H_{t}(a)}/{\pi_{t}(A_{t})}\bigg]\,,}\end{array}\] [15i]  
-[15j] حيث اخترنا هنا الأساس \(B_{t}=\bar{R}_{t}\) واستبدلنا \(R_{t}\) بـ \(q_{*}(A_{t})\) ، وهو مسموح به لأن \(\mathbb{E}[R_{t}|A_{t}]\,=\,q_{*}(A_{t})\). سيثبت قريبًا أن \(\frac{\partial\pi_{t}(x)}{\partial H_{t}(a)}\;=\;\pi_{t}(x)\big(\mathbb{1}_{a=x}\,-\,\pi_{t}(a)\big)\) ، حيث تم تعريف \(\mathbb{1}_{a=x}\) على أنها 1 إذا كان \(a=x\)، وإلا 0. نفترض أن ذلك الآن، لدينا [15j]  
-[18b] 2.10 ملخص [18b]  
-[19a] نهج Gittins-index هو أحد أمثلة الطرق البايزية، التي تفترض توزيعًا أوليًا معروفًا لقيم الإجراءات ثم تحدّث التوزيع بدقة بعد كل خطوة (بالفرض أن القيم الحقيقية للإجراءات ثابتة). بشكل عام، قد تكون حسابات التحديث معقدة جدًا، ولكن بالنسبة لبعض التوزيعات الخاصة (المعروفة بالأسلاف المترافقة) تكون سهلة. إحدى الإمكانيات هي اختيار الإجراءات في كل خطوة وفقًا لاحتمالاتها اللاحقة كونها أفضل إجراء. قد تؤدي هذه الطريقة، التي تُسمى أحيانًا أخذ العينات اللاحقة أو أخذ العينات من تومسون، إلى أداء مماثل لأفضل الطرق غير المتعلقة بالتوزيعات التي قدمناها في هذا الفصل. [19a]  
-[19b] في السياق البايزي، من الممكن حتى حساب التوازن الأمثل بين الاستكشاف والاستغلال. يمكنك حساب احتمال أي إجراء ممكن من كل مكافأة فورية ممكنة والنتائج اللاحقة الناتجة عن قيم الإجراءات. يصبح هذا التوزيع المتطور حالة المعلومات للمشكلة. بالنظر إلى أفق، على سبيل المثال، 1000 خطوة، يمكنك اعتبار جميع الإجراءات الممكنة، وجميع المكافآت الناتجة الممكنة، وجميع الإجراءات التالية، وجميع المكافآت التالية، وما إلى ذلك، على مدى 1000 خطوة. بالنظر إلى الافتراضات، يمكن تحديد المكافآت واحتمالات كل سلسلة ممكنة من الأحداث، ولك فقط اختيار الأفضل. ولكن شجرة الاحتمالات تنمو بسرعة شديدة؛ حتى إذا كان هناك فقط إجراءين ومكافأتين، ستحتوي الشجرة على \(2^{2000}\) ورقة. عمومًا، ليس من الممكن تنفيذ هذا الحساب الضخم بالضبط، ولكن قد يمكن تقريبه بكفاءة. ستؤدي هذه الطريقة بشكل فعّال إلى تحويل مشكلة الذراع المتعدد إلى حالة من مشكلة التعلم المعزز الكاملة. في النهاية، قد نتمكن من استخدام طرق التعلم المعزز التقريبية مثل تلك التي قدمناها في الجزء الثاني من هذا الكتاب للاقتراب من هذا الحل الأمثل. لكن ذلك موضوع للبحث ويتجاوز نطاق هذا الكتاب التمهيدي. [19b]  
-[20h] التمرين 2.11 (برمجة) اجعل الشكل موازياً لشكل 2.6 للحالة غير الثابتة الموضحة في التمرين 2.5. اضف خوارزمية \(\varepsilon\)-الجشع المعتمد على حجم ثابت \(\alpha\!=\!0.1\). استخدم عمليات حتى 200,000 خطوة، وكأداة أداء لكل خوارزمية وإعداد معلمة، استخدم المكافأة المتوسطة على مدى آخر 100,000 خطوة. ⇤ [20h]  
-[6b] كانت جميع طرق قيمة العمل التي ناقشناها حتى الآن تعتمد إلى حد ما على تقديرات قيمة العمل الأولية، \(Q_{1}(a)\). في لغة الإحصاء، تُعزى هذه الطرق إلى تقديراتها الأولية. بالنسبة لطرق متوسط العينة، يختفي التحيز بمجرد اختيار جميع الإجراءات مرة واحدة على الأقل، ولكن بالنسبة للطرق ذات \(\alpha\) الثابت، فإن التحيز دائم، على الرغم من أنه يتناقص مع مرور الوقت كما هو محدد في (2.6). في الممارسة العملية، عادة لا تكون هذه الأنواع من التحيز مشكلة، ويمكن أن تكون أحيانًا مفيدة جدًا. الجانب السلبي هو أن التقديرات الأولية تصبح، بشكل فعال، مجموعة من المعلمات التي يجب أن يحددها المستخدم، إذا كان فقط لضبطها جميعًا على الصفر. الجانب الإيجابي هو أنها توفر وسيلة سهلة لتزويد بعض المعرفة حول مستوى المكافآت التي يمكن توقعها. [10b]  
-[10c] يمكن أن تُستخدم قيم العمل الأولية أيضًا كوسيلة بسيطة لتحفيز الاستكشاف. افترض أننا بدلاً من تعيين قيم العمل الأولية إلى الصفر، كما فعلنا في منصة 10 أذرع، قمنا بتعيينها جميعًا إلى +5. تذكر أن \(q_{*}(a)\) في هذه المشكلة يتم اختيارها من توزيع طبيعي بمتوسط 0 وتباين 1. إن تقديراً ابتدائياً قدره +5 هو بالتالي متفائل للغاية. ولكن هذا التفاؤل يشجع طرق قيم العمل على الاستكشاف. أي من الإجراءات التي يتم اختيارها في البداية، ستكون المكافأة أقل من التقديرات الابتدائية؛ يقوم المتعلم بالتبديل إلى إجراءات أخرى، حيث يُشعر "بخيبة الأمل" من المكافآت التي يتلقاها. والنتيجة هي أن جميع الإجراءات يتم تجربتها عدة مرات قبل أن تتقارب تقديرات القيم. يقوم النظام بقدر كبير من الاستكشاف حتى لو تم اختيار الإجراءات الجشعة طوال الوقت. [10c]  
-[1b] تتمثل الميزة الأكثر أهمية التي تميز التعلم المعزز عن أنواع التعلم الأخرى في أنه يستخدم معلومات التدريب التي تقيم الإجراءات المتخذة بدلاً من الإرشاد عن طريق تقديم الإجراءات الصحيحة. هذا هو ما يخلق الحاجة للاستكشاف النشط، بحثًا عن سلوك جيد. تعطي التعليقات التقييمية البحتة مؤشرًا على مدى جودة الإجراء المتخذ، ولكن ليس ما إذا كان هو أفضل أو أسوأ إجراء ممكن. من ناحية أخرى، تشير التعليقات التعليمية بوضوح إلى الإجراء الصحيح الذي يجب اتخاذه، بغض النظر عن الإجراء المتخذ. تعتبر هذه الأنواع من التعليقات أساس التعلم المراقب، الذي يشمل أجزاء كبيرة من تصنيف الأنماط، الشبكات العصبية الاصطناعية، وتحديد النظام. في أشكالها البسيطة، تختلف هاتان النوعان من التعليقات تمامًا: تعتمد التعليقات التقييمية بالكامل على الإجراء المتخذ، بينما تعتمد التعليقات التعليمية على نحو مستقل عن الإجراء المتخذ. [1b]  
-[1c] في هذا الفصل، ندرس الجانب التقييمي للتعلم المعزز في سياق مبسط، ليس فيه التعلم في موقف واحد فحسب. هذه الإعدادات غير المرتبطة هي التي تم فيها إجراء معظم الأعمال السابقة المتعلقة بالتعليقات التقييمية، وتتجنب الكثير من تعقيد المشكلة الكاملة في التعلم المعزز. تتيح لنا دراسة هذه الحالة رؤية بوضوح كيف تختلف التعليقات التقييمية، ومع ذلك يمكن دمجها مع التعليقات التعليمية. [1c]  
-[8f] تعتبر الأساليب المتوسطة التي تمت مناقشتها حتى الآن مناسبة لمشاكل الذراع المتعدد الثابتة، أي للأحداث التي لا يتغير فيها مكافئات الاحتمالات بمرور الوقت. كما ذكرنا سابقًا، فنحن غالبًا ما نواجه مشاكل التعلم المعزز التي تعتبر غير ثابتة بشكل فعال. [8f]   
+$$
+q^\ast(a) = \mathbb{E}[R_t \mid A_t = a]
+$$
 
-_Related sources: 8, 13, 16, 15, 1, 9, 10, 11, 6, 7, 20, 18, 19._
+If you knew the value of each action, then it would be trivial to solve the k-armed bandit
+problem: you would always select the action with highest value. We assume that you do
+not know the action values with certainty, although you may have estimates. We denote
+the estimated value of action $a$ at time step $t$ as $Q_t(a)$. We would like $Q_t(a)$ to be close
+to $q^\ast(a)$.
 
+If you maintain estimates of the action values, then at any time step there is at least
+one action whose estimated value is greatest. We call these the greedy actions. When you
+select one of these actions, we say that you are exploiting your current knowledge of the
+values of the actions. If instead you select one of the nongreedy actions, then we say you
+are exploring, because this enables you to improve your estimate of the nongreedy action’s
+value.
 
+Exploitation is the right thing to do to maximize the expected reward on the one
+step, but exploration may produce the greater total reward in the long run. For example,
+suppose a greedy action’s value is known with certainty, while several other actions are
+estimated to be nearly as good but with substantial uncertainty. The uncertainty is
+such that at least one of these other actions probably is actually better than the greedy
+action, but you don’t know which one. If you have many time steps ahead on which
+to make action selections, then it may be better to explore the nongreedy actions and
+discover which of them are better than the greedy action. Reward is lower in the short
+run, during exploration, but higher in the long run because after you have discovered
+the better actions, you can exploit them many times. Because it is not possible both to
+explore and to exploit with any single action selection, one often refers to the “conflict”
+between exploration and exploitation.
+
+In any specific case, whether it is better to explore or exploit depends in a complex
+way on the precise values of the estimates, uncertainties, and the number of remaining
+steps. There are many sophisticated methods for balancing exploration and exploitation
+for particular mathematical formulations of the k-armed bandit and related problems.
+
+However, most of these methods make strong assumptions about stationarity and prior
+knowledge that are either violated or impossible to verify in applications and in the full
+reinforcement learning problem that we consider in subsequent chapters. The guarantees
+of optimality or bounded loss for these methods are of little comfort when the assumptions
+of their theory do not apply.
+
+In this book we do not worry about balancing exploration and exploitation in a
+sophisticated way; we worry only about balancing them at all. In this chapter we present
+several simple balancing methods for the k-armed bandit problem and show that they
+work much better than methods that always exploit. The need to balance exploration
+and exploitation is a distinctive challenge that arises in reinforcement learning; the
+simplicity of our version of the k-armed bandit problem enables us to show this in a
+particularly clear form.
+
+---
+
+## 2.2 Action-value Methods
+
+We begin by looking more closely at methods for estimating the values of actions and
+for using the estimates to make action selection decisions, which we collectively call
+**action-value methods**. Recall that the true value of an action is the mean reward when
+that action is selected. One natural way to estimate this is by averaging the rewards
+actually received:
+
+$$
+Q_t(a) = \frac{\text{sum of rewards when $a$ taken prior to $t$}}{\text{number of times $a$ taken prior to $t$}}
+$$
+
+$$
+Q_t(a) = \frac{\sum_{i=1}^{t-1} R_i \cdot \mathbf{1}_{A_i = a}}{\sum_{i=1}^{t-1} \mathbf{1}_{A_i = a}}
+\tag{2.1}
+$$
+
+where $\mathbf{1}_{\text{predicate}}$ denotes the random variable that is 1 if *predicate* is true and 0 if it is not.  
+If the denominator is zero, then we instead define $Q_t(a)$ as some default value, such as 0.  
+As the denominator goes to infinity, by the law of large numbers, $Q_t(a)$ converges to $q^\ast(a)$.  
+We call this the **sample-average method** for estimating action values because each
+estimate is an average of the sample of relevant rewards. Of course this is just one way
+to estimate action values, and not necessarily the best one. Nevertheless, for now let us
+stay with this simple estimation method and turn to the question of how the estimates
+might be used to select actions.
+
+The simplest action selection rule is to select one of the actions with the highest
+estimated value, that is, one of the greedy actions as defined in the previous section.
+If there is more than one greedy action, then a selection is made among them in some
+arbitrary way, perhaps randomly. We write this greedy action selection method as
+
+$$
+A_t = \arg\max_a Q_t(a)
+\tag{2.2}
+$$
+
+where $\arg\max_a$ denotes the action $a$ for which the expression that follows is maximized
+(again, with ties broken arbitrarily). Greedy action selection always exploits current
+knowledge to maximize immediate reward; it spends no time at all sampling apparently
+inferior actions to see if they might really be better.
+
+A simple alternative is to behave greedily most of the time, but every once in a while,  
+say with small probability $\epsilon$, instead select randomly from among all the actions with equal probability, independently of
+the action-value estimates. We call methods using this near-greedy action selection rule
+**$\epsilon$-greedy methods**. An advantage of these methods is that, in the limit as the number of
+steps increases, every action will be sampled an infinite number of times, thus ensuring
+that all the $Q_t(a)$ converge to $q^\ast(a)$. This of course implies that the probability of selecting
+the optimal action converges to greater than $1 - \epsilon$, that is, to near certainty. These are
+just asymptotic guarantees, however, and say little about the practical effectiveness of
+the methods.
+
+---
+
+**Exercise 2.1**  
+In $\epsilon$-greedy action selection, for the case of two actions and $\epsilon = 0.5$,  
+what is the probability that the greedy action is selected? $\;\;\;\; \ast$
