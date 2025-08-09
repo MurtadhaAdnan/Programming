@@ -1,57 +1,61 @@
+<div dir="rtl">
+
 # التصنيف باستخدام آلات ناقلات الدعم (SVM)
 
 ## 12.2 آلة ناقلات الدعم الأولية (Primal SVM)
 
-لحل مشكلة التصنيف الخطي، نبحث عن **مستوى الفصل** $\mathcal{H}$ المُعطى بالمعادلة:
+لحل مشكلة التصنيف الخطي، نبحث عن **مستوى الفصل** \(\mathcal{H}\) المُعطى بالمعادلة:
 
-$$
+\[
 \langle \boldsymbol{w}, \boldsymbol{x} \rangle + b = 0
-$$
+\]
 
 حيث:
-- $\boldsymbol{w}$: المتجه العمودي على مستوى الفصل (متجه الأوزان)
-- $b$: الانزياح (bias term)
-- $\boldsymbol{x}$: متجه الميزات (feature vector)
+- \(\boldsymbol{w}\): المتجه العمودي على مستوى الفصل (متجه الأوزان)
+- \(b\): الانزياح (bias term)
+- \(\boldsymbol{x}\): متجه الميزات (feature vector)
 
 ### 12.2.1 مفهوم الهامش (Margin Concept)
 
-الهامش $\gamma$ هو المسافة بين مستوى الفصل وأقرب نقطة بيانات:
+الهامش \(\gamma\) هو المسافة بين مستوى الفصل وأقرب نقطة بيانات:
 
-$$
+\[
 \gamma = \frac{|\langle \boldsymbol{w}, \boldsymbol{x}_i \rangle + b|}{\|\boldsymbol{w}\|}
-$$
+\]
 
 لتعظيم الهامش، نحل المشكلة التالية:
 
-$$
+\[
 \begin{aligned}
 \max_{\boldsymbol{w},b} &\quad \frac{1}{\|\boldsymbol{w}\|} \\
 \text{subject to} &\quad y_i(\langle \boldsymbol{w}, \boldsymbol{x}_i \rangle + b) \geq 1 \quad \forall i
 \end{aligned}
-$$
+\]
 
 ### 12.2.2 الصيغة المزدوجة (Dual Form)
 
-باستخدام مضاعفات لاغرانج $\alpha_i$، نحصل على الصيغة المزدوجة:
+باستخدام مضاعفات لاغرانج \(\alpha_i\)، نحصل على الصيغة المزدوجة:
 
-$$
+\[
 \begin{aligned}
 \max_{\boldsymbol{\alpha}} &\quad \sum_{i=1}^n \alpha_i - \frac{1}{2} \sum_{i,j=1}^n \alpha_i \alpha_j y_i y_j \langle \boldsymbol{x}_i, \boldsymbol{x}_j \rangle \\
 \text{subject to} &\quad \alpha_i \geq 0 \quad \forall i \\
 &\quad \sum_{i=1}^n \alpha_i y_i = 0
 \end{aligned}
-$$
+\]
 
 ## 12.3 آلة ناقلات الدعم المرنة (Soft Margin SVM)
 
-لحالات عدم الفصل الخطي، نقدم متغيرات Slack $\xi_i$:
+لحالات عدم الفصل الخطي، نقدم متغيرات Slack \(\xi_i\):
 
-$$
+\[
 \begin{aligned}
 \min_{\boldsymbol{w},b,\boldsymbol{\xi}} &\quad \frac{1}{2}\|\boldsymbol{w}\|^2 + C\sum_{i=1}^n \xi_i \\
 \text{subject to} &\quad y_i(\langle \boldsymbol{w}, \boldsymbol{x}_i \rangle + b) \geq 1 - \xi_i \\
 &\quad \xi_i \geq 0 \quad \forall i
 \end{aligned}
-$$
+\]
 
-حيث $C$ هي معلمة التسوية (regularization parameter).
+حيث \(C\) هي معلمة التسوية (regularization parameter).
+
+</div>
